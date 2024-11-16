@@ -3,27 +3,25 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dynamic Lucky Flight Tickets</title>
+    <title>Lucky Flight Search</title>
     <link rel="stylesheet" href="assets/css/styles.css">
 </head>
 <body>
     <h1>Dynamic Lucky Flight Tickets</h1>
-    <p>Find your flights and discover the best deals with a lucky twist!</p>
-
-    <div class="filter-container">
-        <label for="from">From:</label>
-        <input type="text" id="from" placeholder="Enter origin city" />
-        
-        <label for="to">To:</label>
-        <input type="text" id="to" placeholder="Enter destination city" />
-        
-        <button class="btn" onclick="fetchFlights()">Search Flights</button>
-    </div>
-
-    <div class="flights-container" id="flights">Loading real-time data...</div>
     
-    <div class="result" id="result"></div>
-    <button class="btn" onclick="playLuckyDraw()">Try Your Luck</button>
+    <label for="from-city">From:</label>
+    <input type="text" id="from-city" placeholder="Enter departure city">
+
+    <label for="to-city">To:</label>
+    <input type="text" id="to-city" placeholder="Enter destination city">
+    
+    <button id="search-btn">Search Flights</button>
+    
+    <p id="loading">Loading real-time data...</p>
+    
+    <div id="flight-info">
+        <!-- Flight details will be displayed here -->
+    </div>
 
     <script src="assets/js/script.js"></script>
 </body>
