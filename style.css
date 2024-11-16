@@ -1,0 +1,36 @@
+body {
+    font-family: Arial, sans-serif;
+    text-align: center;
+    padding: 20px;
+    background: #f4f4f9;
+}
+
+.btn {
+    padding: 10px 20px;
+    font-size: 16px;
+    background-color: #28a745;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.btn:hover {
+    background-color: #218838;
+}
+
+.filter-container {
+    margin: 20px 0;
+}
+
+.result, .flights-container {
+    margin-top: 20px;
+    font-size: 18px;
+    color: #333;
+}
+
+select, input {
+    padding: 10px;
+    font-size: 16px;
+    margin-right: 10px;
+}
