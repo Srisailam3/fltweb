@@ -1,46 +1,26 @@
-document.getElementById("fetchFlights").addEventListener("click", fetchFlightData);
+const apiKey = "b4LgkewqmfQOXJga4vA7OZc7GIoyDym7";
 
-function fetchFlightData() {
-    const flightsTableBody = document.getElementById("flightsTableBody");
-    flightsTableBody.innerHTML = "<tr><td colspan='6'>Loading...</td></tr>";
+document.getElementById("flightForm").addEventListener("submit", async (event) => {
+  event.preventDefault();
 
-    // Fetch flight data from OpenSky API
-    fetch("https://opensky-network.org/api/states/all")
-        .then(response => {
-            if (!response.ok) {
-                throw new Error("Network response was not ok");
-            }
-            return response.json();
-        })
-        .then(data => {
-            const flights = data.states.map(state => ({
-                callsign: state[1] || "N/A",
-                country: state[2] || "N/A",
-                latitude: state[5] || "N/A",
-                longitude: state[6] || "N/A",
-                altitude: state[7] || "N/A",
-                velocity: state[9] || "N/A"
-            }));
+  const origin = document.getElementById("origin").value;
+  const destination = document.getElementById("destination").value;
+  const results = document.getElementById("results");
 
-            // Clear the table before inserting new rows
-            flightsTableBody.innerHTML = "";
+  results.innerHTML = "Searching for free flights...";
 
-            // Add rows to the table
-            flights.forEach(flight => {
-                const row = document.createElement("tr");
-                row.innerHTML = `
-                    <td>${flight.callsign}</td>
-                    <td>${flight.country}</td>
-                    <td>${flight.latitude}</td>
-                    <td>${flight.longitude}</td>
-                    <td>${flight.altitude}</td>
-                    <td>${flight.velocity}</td>
-                `;
-                flightsTableBody.appendChild(row);
-            });
-        })
-        .catch(error => {
-            console.error("Error fetching flight data:", error);
-            flightsTableBody.innerHTML = "<tr><td colspan='6'>Failed to load data. Try again later.</td></tr>";
-        });
-}
+  try {
+    const response = await fetch(`https://test.api.amadeus.com/v1/shopping/flight-offers?originLocationCode=${origin}&destinationLocationCode=${destination}&adults=1`, {
+      headers: {
+        Authorization: `Bearer ${apiKey}`,
+      },
+    });
+
+    if (!response.ok) {
+      throw new Error("Failed to fetch flight data");
+    }
+
+    const data = await response.json();
+
+    if (data.data && data.data.length > 0) {
+      results.innerHTML = "<
