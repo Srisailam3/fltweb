@@ -1,36 +1,25 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Real-Time Flight Tracker</title>
-    <link rel="stylesheet" href="styles.css">
-<script src="script.js"></script>
-
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Free Flight Tickets</title>
+  <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <div class="container">
-        <h1>Real-Time Flight Tracker</h1>
-        <button id="fetchFlights">Fetch Flights</button>
-        <div id="flightData">
-            <h2>Flight Information:</h2>
-            <table>
-                <thead>
-                    <tr>
-                        <th>Callsign</th>
-                        <th>Country</th>
-                        <th>Latitude</th>
-                        <th>Longitude</th>
-                        <th>Altitude (m)</th>
-                        <th>Velocity (m/s)</th>
-                    </tr>
-                </thead>
-                <tbody id="flightsTableBody">
-                    <!-- Flight data will be dynamically inserted here -->
-                </tbody>
-            </table>
-        </div>
-    </div>
-    <script src="script.js"></script>
+  <div class="container">
+    <h1>Free Flight Tickets</h1>
+    <form id="flightForm">
+      <label for="origin">Origin:</label>
+      <input type="text" id="origin" placeholder="Enter origin (e.g., NYC)" required>
+      
+      <label for="destination">Destination:</label>
+      <input type="text" id="destination" placeholder="Enter destination (e.g., LAX)" required>
+      
+      <button type="submit">Find Free Flights</button>
+    </form>
+    <div id="results"></div>
+  </div>
+  <script src="script.js"></script>
 </body>
 </html>
