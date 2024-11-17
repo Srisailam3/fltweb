@@ -1,55 +1,46 @@
-// City to IATA code mapping
-const cityToIata = {
-  "New York": "JFK",
-  "London": "LHR",
-  "Paris": "CDG",
-  "Mumbai": "BOM",
-  "Tokyo": "HND",
-  // Add other cities here
-};
+document.getElementById("fetchFlights").addEventListener("click", fetchFlightData);
 
-// Event listener for the search button
-document.getElementById('search-btn').addEventListener('click', function() {
-  const fromCity = document.getElementById('from-city').value;
-  const toCity = document.getElementById('to-city').value;
-  
-  const from = cityToIata[fromCity];
-  const to = cityToIata[toCity];
+function fetchFlightData() {
+    const flightsTableBody = document.getElementById("flightsTableBody");
+    flightsTableBody.innerHTML = "<tr><td colspan='6'>Loading...</td></tr>";
 
-  // Validate IATA codes
-  if (!from || !to) {
-    alert('Invalid city entered. Please enter valid cities.');
-    return;
-  }
+    // Fetch flight data from OpenSky API
+    fetch("https://opensky-network.org/api/states/all")
+        .then(response => {
+            if (!response.ok) {
+                throw new Error("Network response was not ok");
+            }
+            return response.json();
+        })
+        .then(data => {
+            const flights = data.states.map(state => ({
+                callsign: state[1] || "N/A",
+                country: state[2] || "N/A",
+                latitude: state[5] || "N/A",
+                longitude: state[6] || "N/A",
+                altitude: state[7] || "N/A",
+                velocity: state[9] || "N/A"
+            }));
 
-  // Show loading message
-  document.getElementById('loading').style.display = 'block';
-  document.getElementById('flight-info').innerHTML = '';
+            // Clear the table before inserting new rows
+            flightsTableBody.innerHTML = "";
 
-  // Fetch flight data from the API
-  const apiUrl = `https://api.aviationstack.com/v1/flights?access_key=7d4b92c5bb8166d346f881417b396869&dep_iata=${from}&arr_iata=${to}&limit=100`;
-
-  fetch(apiUrl)
-    .then(response => response.json())
-    .then(data => {
-      document.getElementById('loading').style.display = 'none';
-      if (data.data && data.data.length > 0) {
-        const flights = data.data.map(flight => `
-          <div class="flight">
-            <p><strong>Airline:</strong> ${flight.airline.name}</p>
-            <p><strong>Flight:</strong> ${flight.flight.number}</p>
-            <p><strong>Departure:</strong> ${flight.departure.airport} at ${new Date(flight.departure.scheduled).toLocaleString()}</p>
-            <p><strong>Arrival:</strong> ${flight.arrival.airport} at ${new Date(flight.arrival.scheduled).toLocaleString()}</p>
-          </div>
-        `).join('');
-        document.getElementById('flight-info').innerHTML = flights;
-      } else {
-        document.getElementById('flight-info').innerHTML = 'No flights found.';
-      }
-    })
-    .catch(error => {
-      console.error('Error fetching flight data:', error);
-      document.getElementById('loading').style.display = 'none';
-      document.getElementById('flight-info').innerHTML = 'Failed to fetch flight data.';
-    });
-});
+            // Add rows to the table
+            flights.forEach(flight => {
+                const row = document.createElement("tr");
+                row.innerHTML = `
+                    <td>${flight.callsign}</td>
+                    <td>${flight.country}</td>
+                    <td>${flight.latitude}</td>
+                    <td>${flight.longitude}</td>
+                    <td>${flight.altitude}</td>
+                    <td>${flight.velocity}</td>
+                `;
+                flightsTableBody.appendChild(row);
+            });
+        })
+        .catch(error => {
+            console.error("Error fetching flight data:", error);
+            flightsTableBody.innerHTML = "<tr><td colspan='6'>Failed to load data. Try again later.</td></tr>";
+        });
+}
