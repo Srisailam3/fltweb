@@ -1,28 +1,34 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Dynamic Lucky Flight Tickets</title>
-    <link rel="stylesheet" href="assets/css/style.css" />
-  </head>
-  <body>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Real-Time Flight Tracker</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
     <div class="container">
-      <h1>Find Your Lucky Flight Ticket</h1>
-      <form id="flight-form">
-        <label for="from-city">From: </label>
-        <input type="text" id="from-city" placeholder="Enter departure city" required />
-        
-        <label for="to-city">To: </label>
-        <input type="text" id="to-city" placeholder="Enter destination city" required />
-
-        <button type="button" id="search-btn">Search Flights</button>
-      </form>
-
-      <div id="loading" style="display: none;">Loading real-time data...</div>
-      <div id="flight-info"></div>
+        <h1>Real-Time Flight Tracker</h1>
+        <button id="fetchFlights">Fetch Flights</button>
+        <div id="flightData">
+            <h2>Flight Information:</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Callsign</th>
+                        <th>Country</th>
+                        <th>Latitude</th>
+                        <th>Longitude</th>
+                        <th>Altitude (m)</th>
+                        <th>Velocity (m/s)</th>
+                    </tr>
+                </thead>
+                <tbody id="flightsTableBody">
+                    <!-- Flight data will be dynamically inserted here -->
+                </tbody>
+            </table>
+        </div>
     </div>
-
-    <script src="assets/js/script.js"></script>
-  </body>
+    <script src="script.js"></script>
+</body>
 </html>
